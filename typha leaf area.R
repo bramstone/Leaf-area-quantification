@@ -1,4 +1,4 @@
-leaf_quant<-function(path=c(),ref.area=double()) {
+leaf_quant<-function(path=c(),ref.area=double(),two.sided=TRUE) {
   require(jpeg)
   #use either user supplied directory of pictures, or current working directory
   if(is.null(path)) files<-dir(path,pattern=".jpg")
@@ -29,8 +29,10 @@ leaf_quant<-function(path=c(),ref.area=double()) {
     leaf.area[i,"ref.pix"]<-ref.pix
     leaf.area[i,"green.pix"]<-length(which(df$material=="greenleaf"))
     leaf.area[i,"brown.pix"]<-length(which(df$material=="brownleaf"))
-    leaf.area[i,"green.leaf.area"]<-(length(which(df$material=="greenleaf"))/scaler)*2
-    leaf.area[i,"brown.leaf.area"]<-(length(which(df$material=="brownleaf"))/scaler)*2
+    if(two.sided==TRUE) side.multiplier<-2
+    else side.multiplier<-1
+    leaf.area[i,"green.leaf.area"]<-(length(which(df$material=="greenleaf"))/scaler)*side.multiplier
+    leaf.area[i,"brown.leaf.area"]<-(length(which(df$material=="brownleaf"))/scaler)*side.multiplier
     leaf.area[i,"total.leaf.area"]<-(leaf.area[i,"green.leaf.area"]+leaf.area[i,"brown.leaf.area"])
     leaf.area[i,"green.ratio"]<-leaf.area[i,"green.leaf.area"]/leaf.area[i,"total.leaf.area"]
 #concatenates and prints a progress statement that refreshes each iteration
