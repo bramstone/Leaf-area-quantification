@@ -1,7 +1,7 @@
 leaf_quant<-function(path=c(),ref.area=double(),two.sided=TRUE) {
   require(jpeg)
   #use either user supplied directory of pictures, or current working directory
-  if(is.null(path)) files<-dir(path,pattern=".jpg")
+  if(is.null(path)) files<-dir(path,pattern=".jpg",full.names=T)
   if(is.null(ref.area)) stop("Must supply area of reference square to scale image pixel counts.")
   else files<-dir(getwd(),pattern=".jpg")
   leaf.area<-matrix(data=NA,ncol=8,nrow=length(files),
@@ -35,7 +35,7 @@ leaf_quant<-function(path=c(),ref.area=double(),two.sided=TRUE) {
     leaf.area[i,"brown.leaf.area"]<-(length(which(df$material=="brownleaf"))/scaler)*side.multiplier
     leaf.area[i,"total.leaf.area"]<-(leaf.area[i,"green.leaf.area"]+leaf.area[i,"brown.leaf.area"])
     leaf.area[i,"green.ratio"]<-leaf.area[i,"green.leaf.area"]/leaf.area[i,"total.leaf.area"]
-#concatenates and prints a progress statement that refreshes each iteration
+    #concatenates and prints a progress statement that refreshes each iteration
     cat(paste0("picture ",i," of ",length(files)),"\r")
     flush.console()
   }
